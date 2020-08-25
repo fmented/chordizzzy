@@ -41,6 +41,7 @@ nav{
   background-size: 1400% 1400%;
   -webkit-text-fill-color: transparent;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-animation: navbar 15s ease infinite;
     -moz-animation: navbar 15s ease infinite;
     animation: navbar 15s ease infinite;
