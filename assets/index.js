@@ -1,5 +1,6 @@
 var chord;
 var t = document.getElementById("txt");
+var nav = document.getElementById('navbar')
 var lo, hi;
 var midisupport;
 var tm;
@@ -147,7 +148,9 @@ function setLow(n) {
 }
 
 function setHigh(n) {
+  t.className = 'txt'
   t.innerHTML = "Generating Chord list";
+  nav.className = 'navbar-anim'
   setTimeout(function () {
     hi = n;
     chord = getChordList();
@@ -243,6 +246,8 @@ function getChordList() {
       }
     }
   });
+  t.className=''
+  nav.className=''
   t.innerHTML = "Ready";
   return list;
 }

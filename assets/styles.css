@@ -14,14 +14,18 @@
     font-size: 4em;
   
   }
-  .navbar{
+  .navbar-anim{
     background: linear-gradient(91deg, #404745, #000000, #156c65, #520c34, #1d0c52, #0c523d, #4e0c52);
     background-size: 1400% 1400%;
 
     -webkit-animation: navbar 34s ease infinite;
     -moz-animation: navbar 34s ease infinite;
     animation: navbar 34s ease infinite;
-      height: 3em;
+      
+  }
+  #navbar{
+    height: 3em;
+    background-color: #000000;
   }
   .navbar-brand{
     color: beige;
@@ -36,7 +40,7 @@ nav{
   width: 100%;
 }
 
-#txt{
+.txt{
   background: linear-gradient(60deg,  #000000, #156c65,#4e0c52 ,#156c65,#0c523d,#1d0c52, #404745,#520c34, #0c523d);
   background-size: 1400% 1400%;
   -webkit-text-fill-color: transparent;
