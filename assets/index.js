@@ -8,6 +8,8 @@ var played = [];
 var notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 var p;
 var inputDev = [];
+
+const synth = new Tone.PolySynth().toDestination();
 var chords = [
   { name: "M", keys: [0, 4, 7] },
   { name: "Maj7", keys: [0, 4, 7, 11] },
@@ -268,8 +270,15 @@ function getChordList() {
   return list;
 }
 
+nav.onclick=function(){
+  if (Tone.context.state !== 'running') {
+    Tone.context.resume();
+}
+}
+
 function getMIDIMessage(midiMessage) {
   var e = midiMessage.data[1];
+  
 
   if (midiMessage.data[0] == 144) {
     if (lo == undefined && hi == undefined) {
@@ -278,6 +287,9 @@ function getMIDIMessage(midiMessage) {
       setHigh(e);
     } else {
       played.push(e);
+
+      play(e)
+      
 
       if (played.length == 1) {
         setTimeout(() => {
@@ -289,6 +301,7 @@ function getMIDIMessage(midiMessage) {
         }, 5);
         
       } else {
+
         p = played.sort(function (a, b) {
           return a - b;
         });
@@ -303,6 +316,7 @@ function getMIDIMessage(midiMessage) {
       }
     }
   } else {
+    release(e)
     played.splice(played.indexOf(e), 1);
     if (hi != undefined && lo != undefined) {
       t.innerHTML = "";
@@ -335,4 +349,18 @@ function addSlash(l, num, num2) {
   a.unshift(num2);
 
   return [a, notes[Math.floor(num % 12)], notes[Math.floor(num2 % 12)]];
+}
+
+function play(note) {
+  if(note>=lo && note <=hi){
+    synth.triggerAttack(notes[note%12]+Math.floor(note/12), 0)
+  }
+  
+}
+
+function release(note) {
+  if(note>=lo && note <=hi){
+    synth.triggerRelease(notes[note%12]+Math.floor(note/12), 1)
+  }
+  
 }
