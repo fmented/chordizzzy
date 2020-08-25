@@ -4,7 +4,7 @@
     "name": "Chordizzzy",
     "short_name": "Chordizzzy",
     "scope": "/chordizzzy/",
-    "display": "browser",
+    "display": "fullscreen",
     "start_url": "https://fmented.github.io/chordizzzy/",
     "background_color": "transparent",
     "theme_color": "transparent",
