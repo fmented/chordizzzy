@@ -224,9 +224,9 @@ function getChordList() {
       name = holder[1] + x.name;
       keys = holder[0];
       if (Math.max(...keys) <= hi) {
-        if (list[keys] == undefined) {
+        // if (list[keys] == undefined) {
           list[keys] = name;
-        }
+        // }
       }
 
       var k;
