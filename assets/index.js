@@ -158,7 +158,9 @@ function setHigh(n) {
   }, 4000);
 }
 
+init()
 navigator.permissions.query({ name: "midi" }).then((PermissionStatus) => {
+  
   if (PermissionStatus.state == "granted") {
     navigator.requestMIDIAccess().then(onMIDISuccess, onFailed);
   }
@@ -176,6 +178,7 @@ function compare(a, b) {
 }
 
 function onMIDISuccess(midiAccess) {
+
   
   var tm;
   for (var input of midiAccess.inputs.values()) {
@@ -207,6 +210,7 @@ else{
 
 }
 }
+
 
 function getChordList() {
   var name, keys, nm;
