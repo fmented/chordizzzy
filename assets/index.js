@@ -7,6 +7,7 @@ var tm;
 var played = [];
 var notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 var p;
+var inputDev = [];
 var chords = [
   { name: "M", keys: [0, 4, 7] },
   { name: "Maj7", keys: [0, 4, 7, 11] },
@@ -175,10 +176,11 @@ function compare(a, b) {
 }
 
 function onMIDISuccess(midiAccess) {
-  var inputDev = [];
+  
   var tm;
   for (var input of midiAccess.inputs.values()) {
     input.onstatechange = function () {
+      init()
       if (this.connection == "open") {
         lo = undefined;
         hi = undefined;
@@ -194,6 +196,16 @@ function onMIDISuccess(midiAccess) {
     };
     input.onmidimessage = getMIDIMessage;
   }
+}
+
+function init(){
+if(inputDev.length<1){
+  t.innerHTML = "No MIDI Device";
+}
+else{
+  t.innerHTML = "Press the lowest note";
+
+}
 }
 
 function getChordList() {
