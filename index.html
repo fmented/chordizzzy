@@ -11,11 +11,23 @@
     <link rel="apple-touch-icon" sizes="180x180" href="./assets/icon/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="./assets/icon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="./assets/icon/favicon-16x16.png" />
+    <script>
+      
+     if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./pwabuilder-sw.js', {scope: './'})
+      .then((reg) => {
+
+      }).catch((error) => {
+      });
+    }
+    
+    </script>
 
     <title>Chordizzzy</title>
   </head>
   <body>
     <nav id="navbar">
+      
       <a
         class="navbar-brand text-white font-weight-bold"
         href="https://github.com/fmented/chordizzzy"
@@ -23,8 +35,10 @@
       >
     </nav>
     <div class="center">
+      
       <h1 id="txt"></h1>
     </div>
     <script src="assets/index.min.js"></script>
+
   </body>
 </html>

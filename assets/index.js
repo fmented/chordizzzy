@@ -264,9 +264,14 @@ function getMIDIMessage(midiMessage) {
       played.push(e);
 
       if (played.length == 1) {
-        if (played[0] <= hi) {
-          t.innerHTML = notes[played[0] % 12];
-        }
+        setTimeout(() => {
+          if (played[0] <= hi) {
+            t.innerHTML = notes[played[0] % 12];
+          }
+          
+          
+        }, 5);
+        
       } else {
         p = played.sort(function (a, b) {
           return a - b;
@@ -285,11 +290,7 @@ function getMIDIMessage(midiMessage) {
     played.splice(played.indexOf(e), 1);
     if (hi != undefined && lo != undefined) {
       t.innerHTML = "";
-      if (played.length == 0) {
-        tm = setTimeout(function () {
-          t.innerHTML = "Waiting MIDI Input";
-        }, 5000);
-      }
+
     }
   }
 }
