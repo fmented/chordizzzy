@@ -388,7 +388,6 @@ function addSlash(l, num, num2) {
 
 function play(note) {
   if(note>=lo && note <=hi){
-    console.log(synth)
     
     synth.triggerAttack(notes[note%12]+Math.floor(note/12), 0)
     synth2.triggerAttack(notes[note%12]+(Math.floor(note/12)-1), 0)
