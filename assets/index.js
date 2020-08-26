@@ -1,5 +1,6 @@
 var chord;
 var t = document.getElementById("txt");
+var alt = document.getElementById("alt");
 var nav = document.getElementById('navbar')
 var lo, hi;
 var midisupport;
@@ -9,7 +10,29 @@ var notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 var p;
 var inputDev = [];
 
-const synth = new Tone.PolySynth().toDestination();
+
+
+const synth = new Tone.PolySynth({
+  polyphony:2,
+  voice: Tone.Synth,
+}).toDestination();
+
+const synth2 = new Tone.PolySynth({
+  polyphony:2,
+  voice: Tone.Synth,
+}).toDestination();
+
+nav.onclick=function(){
+  if (Tone.context.state !== 'running') {
+    Tone.context.resume();
+}
+else{
+  Tone.start()
+}
+
+}
+
+
 var chords = [
   { name: "M", keys: [0, 4, 7] },
   { name: "Maj7", keys: [0, 4, 7, 11] },
@@ -224,9 +247,14 @@ function getChordList() {
       name = holder[1] + x.name;
       keys = holder[0];
       if (Math.max(...keys) <= hi) {
-        // if (list[keys] == undefined) {
-          list[keys] = name;
-        // }
+        if (list[keys] == undefined) {
+          list[keys] = [name];
+        }
+        else{
+          if(!list[keys].includes(name)){
+            list[keys].push(name)
+          }
+        }
       }
 
       var k;
@@ -238,7 +266,12 @@ function getChordList() {
             keys = holder[0];
             if (Math.max(...keys) <= hi) {
               if (list[keys] == undefined) {
-                list[keys] = name;
+                list[keys] = [name];
+              }
+              else{
+                if(!list[keys].includes(name)){
+                  list[keys].push(name)
+                }
               }
             }
           }
@@ -256,7 +289,13 @@ function getChordList() {
             name = y2 + x.name + "/" + y1 + poly.name;
             if (Math.max(...keys) <= hi) {
               if (list[keys] == undefined) {
-                list[keys] = name;
+                list[keys] = [name];
+              }
+              else{
+                if(!list[keys].includes(name)){
+                  list[keys].push(name)
+                }
+                
               }
             }
           });
@@ -270,11 +309,7 @@ function getChordList() {
   return list;
 }
 
-nav.onclick=function(){
-  if (Tone.context.state !== 'running') {
-    Tone.context.resume();
-}
-}
+
 
 function getMIDIMessage(midiMessage) {
   var e = midiMessage.data[1];
@@ -292,13 +327,13 @@ function getMIDIMessage(midiMessage) {
       
 
       if (played.length == 1) {
-        setTimeout(() => {
-          if (played[0] <= hi) {
-            t.innerHTML = notes[played[0] % 12];
+        // setTimeout(() => {
+          if (e<= hi && e>=lo) {
+            t.innerHTML = notes[e% 12];
           }
           
           
-        }, 5);
+        // }, 5);
         
       } else {
 
@@ -306,12 +341,17 @@ function getMIDIMessage(midiMessage) {
           return a - b;
         });
         if (chord[p.toString()] != undefined) {
-          t.innerHTML = chord[p.toString()];
-          try {
-            clearTimeout(tm);
-          } catch (error) {
-            console.log(error);
+          if(chord[p.toString()].length>1){
+            // t.innerHTML = chord[p.toString()][0];
+            t.innerHTML = filter(chord[p.toString()])
+            alt.innerHTML=render(t.innerHTML, chord[p.toString()])
+
           }
+          else{
+            t.innerHTML = chord[p.toString()][0];
+
+          }
+          
         }
       }
     }
@@ -320,6 +360,8 @@ function getMIDIMessage(midiMessage) {
     played.splice(played.indexOf(e), 1);
     if (hi != undefined && lo != undefined) {
       t.innerHTML = "";
+      alt.innerHTML ='';
+
 
     }
   }
@@ -353,7 +395,11 @@ function addSlash(l, num, num2) {
 
 function play(note) {
   if(note>=lo && note <=hi){
+    console.log(synth)
+    
     synth.triggerAttack(notes[note%12]+Math.floor(note/12), 0)
+    synth2.triggerAttack(notes[note%12]+(Math.floor(note/12)-1), 0)
+
   }
   
 }
@@ -361,6 +407,73 @@ function play(note) {
 function release(note) {
   if(note>=lo && note <=hi){
     synth.triggerRelease(notes[note%12]+Math.floor(note/12), 1)
+    synth2.triggerRelease(notes[note%12]+(Math.floor(note/12)-1), 1)
+
   }
+  
+}
+
+function smallest(list){
+  var ss
+  var hh
+  for(var z=0; z<list.length; z++){
+    if(z==0){ss=list[z].length; hh=list[z]}
+    else{
+      if(list[z].length<ss){ss=list[z].length; hh=list[z]}
+    }
+  }
+  return hh
+}
+
+function render(small, list){
+  var g = '<ul><li><b>Alt :</b></li>'
+  for(var z=0; z<list.length; z++){
+    if(list[z]!=small){
+      if(z==list.length-1){
+        g+='<li><b>'+list[z]+'</b></li>'
+
+      }
+      else{
+        g+='<li><b>'+list[z]+',</b></li>'
+        
+      }
+      
+    }
+  }
+  g+='</ul>'
+  return g
+}
+
+function filter(list) {
+  var cl = []
+  var il = []
+  var sl = []
+  for(var z=0; z<list.length; z++){
+    
+      if(list[z].includes('/')){
+        sl.push(list[z])
+    }
+    else if(list[z].includes('(no')){
+      il.push(list[z])
+    }
+    else if(list[z].includes('(no')&&list[z].includes('/')){
+      sl.push(list[z])
+    }
+    else{
+      cl.push(list[z])
+    }
+  }
+  if (cl.length>0){
+    return smallest(cl)
+  }
+  else{
+    if(il.length>0){
+      return smallest(il)
+    }
+    else{
+      return smallest(sl)
+    }
+  }
+  
   
 }

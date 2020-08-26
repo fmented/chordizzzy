@@ -10,9 +10,27 @@
     margin: 0;
     text-align: center;
     position: absolute;
-    top: 50%;
+    top: 40%;
     font-size: 4em;
   
+  }
+
+  ul{
+    position: absolute;
+    top: 85%;
+
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+  }
+  li{
+    float: left;
+    font-size: 1.2em;
+  }
+  li b{
+    padding: 0.2em;
   }
   .navbar-anim{
     background: linear-gradient(91deg, #404745, #000000, #156c65, #520c34, #1d0c52, #0c523d, #4e0c52);
@@ -34,7 +52,7 @@
     padding: 0.5em;
   }
 nav{
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -75,7 +93,7 @@ nav{
     text-align: center;
     position: absolute;
     top: 50%;
-    font-size: 3em;
+    font-size: 2em;
   
   }
 }
