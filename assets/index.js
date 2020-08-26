@@ -9,14 +9,10 @@ var played = [];
 var notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"];
 var p;
 var inputDev = [];
-
-
-
 const synth = new Tone.PolySynth({
   polyphony:2,
   voice: Tone.Synth,
 }).toDestination();
-
 const synth2 = new Tone.PolySynth({
   polyphony:2,
   voice: Tone.Synth,
@@ -29,10 +25,7 @@ nav.onclick=function(){
 else{
   Tone.start()
 }
-
 }
-
-
 var chords = [
   { name: "M", keys: [0, 4, 7] },
   { name: "Maj7", keys: [0, 4, 7, 11] },
